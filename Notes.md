@@ -1,14 +1,14 @@
 # CIS 120 Notes
 
 ## Chapter 1 - Overview and Program Design
-### The Four States of Program Design
+### The Four Stages of Program Design
 1. Understand the problem.
 2. Formalize the interface.
 3. Write test cases.
 4. Implement the required behavior.
 
 ## Chapter 2 - Introductory OCaml
-### Primitives
+### Primitives (a.k.a. atomic values)
 - Integers (`int`)
   - `x / y` - integer division
   - `x mod y` - modulus (remainder)
@@ -38,6 +38,9 @@
 - `let f (x: type) (y: type): returnType = z in`
 - `in` is **required** iff the function's scope is local.
 
+### Comments
+- `(* Insert comment here *)`
+
 ### Failwith
 - `failwith "Error string"`
 - Can be used as placeholder text.
@@ -48,7 +51,7 @@
 - `;; print_endline "Hello World"`
 - `;; print_int 3`
 - Running Tests
-``` Ruby
+``` ruby
 let test() : bool =
   (1 + 2 + 3) = 7
 ;; run_test "1 + 2 + 3" test
@@ -59,6 +62,45 @@ let test() : bool =
 - It is also a _strongly-typed_ programming language, meaning that every expression has a type. An expression is _well-typed_ if it has at least one type, and _ill-typed_ otherwise.
 
 ## Chapter 3 - Lists and Recursion
+### Lists
+- Lists are just ordered sequences of data values.
+- Lists are either:
+  - `[]` - the empty list (sometimes called `nil`)
+  - `v :: tail` - a value `v` followed by `tail`, a list of the remaining elements
+- `::` constructs a non-empty list (hence called "cons")
+  - Side note: `::` is therefore of type `'a -> 'a list -> 'a list` (I think?)
+- `[1; 2; 3]` and `1 :: 2 :: 3 :: []` are equivalent. The former is just shorthand for the latter.
+- You can have lists of lists.
+
+### Pattern Matching on Lists
+Example 1: Simple Pattern Matching
+``` ruby
+let l : int list = [1;2;3]
+let is_l_empty : bool =
+  begin match l with
+  | [] -> true
+  | x :: tl -> false
+  end
+```
+
+Example 2: Recursive Pattern Matching
+``` ruby
+let rec length (l : int list) : int =
+  begin match l with
+  | [] -> 0
+  | x :: tl -> 1 + (length tl)
+  end
+```
+(The `rec` keyword must be used if the function is recursive (i.e. calls on itself)).
+
+Example 3: Example 2 Generalized
+``` ruby
+let rec f (l : ... list) ... : ... =
+  begin match l with
+  | [] -> ...
+  | (hd :: rest) -> ... hd ... (f rest) ...
+  end
+```
 
 ## Chapter 4 - Tuples and Nested Patterns
 

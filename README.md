@@ -1,5 +1,8 @@
 # CIS 120 Notes
-Chapter summaries in nicely-formatted GitHub Markdown. Created by Young Lee.
+By Young Lee
+
+CIS 120 chapter summaries in nicely-formatted GitHub Markdown.
+Most qualitative and extraneous information is omitted, unless it is pertinent to the exams.
 
 ## Getting Started
 1. Refer to `120notes.pdf` for the original course textbook.
