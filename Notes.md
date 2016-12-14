@@ -158,8 +158,67 @@ type day =
 
 
 ## Chapter 6 - Binary Trees
+- A binary tree is either `Empty` or it is a `Node` consisting of a left subtree, an integer label, and a right subtree.
+``` ruby
+type tree =
+  | Empty
+  | Node of tree * int * tree
+```
+- The root node is at the top of the tree.
+- A leaf is a node both of whose children are `Empty`.
+- Any node that is not a leaf is sometimes called an internal node of the tree.
+- The size of a tree is the total number of nodes in a tree.
+- A tree's height is the length of the longest path from the root to any leaf.
+
+- in-order traversal: left child, node, right children
+- pre-order: node, left child, right child
+- post order: left child, right child, node
+
 
 ## Chapter 7 - Binary Search Trees
+Binary Search Tree Invariant:
+- `Empty` is a binary search tree.
+- A tree `Node(lt, x, rt)` is a binary search tree if `lt` and `rt` are both binary search trees, and every label of `lt` is less than `x` and every label of `rt` is greater than `x`.
+
+One way to construct a binary search tree is to start with a simple binary search tree like `Empty`, which trivially satisfies the invariant, and then `insert` or `delete` nodes as desired to obtain a new binary search tree.
+
+Example: inserting an element into a binary search tree
+``` ruby
+let rec insert (t: tree) (n: int) : tree =
+  begin match t with
+  | Empty -> Node(Empty, n, Empty)
+  | Node(lt, x, rt) -> if x = n then t
+                       else
+                         if n < x then Node (insert lt n, x, rt)
+                       else Node(lt, x, insert rt n)
+```
+
+Example: removing an element
+``` ruby
+let rec tree_max (t: tree) : int =
+  begin match t with
+  | Empty -> failwith "tree_max called on empty tree"
+  | Node(_, x, Empty) -> x
+  | Node(_, _, rt) -> tree_max rt
+  end
+
+let rec delete (n:int) (t:tree) : tree =
+  begin match t with
+  | Empty -> Empty
+  | Node(lt, x, rt) ->
+      if x = n then
+        begin match (lt, rt) with
+        | (Empty, Empty) -> Empty
+        | (Node _, Empty) -> lt
+        | (Empty, Node _) -> rt
+        | _ -> let m = tree_max lt in
+        Node(delete m lt, m, rt) end
+      else
+        if n < x then Node(delete n lt, x, rt)
+        else Node(lt, x, delete n rt)
+  end
+```
+
 
 ## Chapter 8 - Generic Functions and Datatypes
 
