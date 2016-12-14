@@ -59,6 +59,9 @@ let test() : bool =
 ;; run_test "1 + 2 + 3" test
 ```
 
+### Importing Files
+- `;; open FileName`
+
 ### Miscellaneous
 - OCaml is _value-oriented_, meaning that everything computes to a value.
 - It is also a _strongly-typed_ programming language, meaning that every expression has a type. An expression is _well-typed_ if it has at least one type, and _ill-typed_ otherwise.
