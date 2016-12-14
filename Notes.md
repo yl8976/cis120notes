@@ -198,16 +198,16 @@ Example: removing an element
 let rec tree_max (t: tree) : int =
   begin match t with
   | Empty -> failwith "tree_max called on empty tree"
-  | Node(_,x,Empty) -> x
-  | Node(_,_,rt) -> tree_max rt
+  | Node(_, x, Empty) -> x
+  | Node(_, _, rt) -> tree_max rt
   end
 
 let rec delete (n:int) (t:tree) : tree =
   begin match t with
   | Empty -> Empty
-  | Node(lt,x,rt) ->
+  | Node(lt, x, rt) ->
       if x = n then
-        begin match (lt,rt) with
+        begin match (lt, rt) with
         | (Empty, Empty) -> Empty
         | (Node _, Empty) -> lt
         | (Empty, Node _) -> rt
