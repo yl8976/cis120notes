@@ -1,8 +1,62 @@
 # CIS 120 Notes
 
 ## Chapter 1 - Overview and Program Design
+### The Four States of Program Design
+1. Understand the problem.
+2. Formalize the interface.
+3. Write test cases.
+4. Implement the required behavior.
 
 ## Chapter 2 - Introductory OCaml
+### Primitives
+- Integers (`int`)
+  - `x / y` - integer division
+  - `x mod y` - modulus (remainder)
+  - `string_of_int x` - convert `x` to string `"x"`
+- Booleans (`bool`)
+  - `not` - logical negation
+  - `&&` and `||` - "and" and "or"
+- Strings (`string`)
+  - `"\n"` - newline character
+  - `"hello" ^ " world"` - concatenation
+
+### Generic Comparisons (produces a bool)
+- `=`, `<>`, `<`, `<=`, `>`, `>=`, `==`, `!=`
+
+### Conditionals
+- `if x then y else z`
+- `else` statement is **required** in OCaml.
+
+### Variables
+- `let x : type = y in`
+- `x` is called the _identifier_.
+- `in` is **required** iff the variable's scope is local.
+- Shadowing may occur if variable is declared again.
+- The variable with the innermost scope is substituted first when evaluating the expression.
+
+### Functions
+- `let f (x: type) (y: type): returnType = z in`
+- `in` is **required** iff the function's scope is local.
+
+### Failwith
+- `failwith "Error string"`
+- Can be used as placeholder text.
+- Terminates the program, so calling it too early will stop the rest of the code from being executed.
+
+### Commands
+- `;; print_string "Hello World\n"`
+- `;; print_endline "Hello World"`
+- `;; print_int 3`
+- Running Tests
+``` Ruby
+let test() : bool =
+  (1 + 2 + 3) = 7
+;; run_test "1 + 2 + 3" test
+```
+
+### Miscellaneous
+- OCaml is _value-oriented_, meaning that everything computes to a value.
+- It is also a _strongly-typed_ programming language, meaning that every expression has a type. An expression is _well-typed_ if it has at least one type, and _ill-typed_ otherwise.
 
 ## Chapter 3 - Lists and Recursion
 
