@@ -3,7 +3,18 @@
 ## True-False Guide
 Answers to some True-False questions from the old final exams
 
-### Fall 2012
+
+### Fall 2012: Java Programming
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10. 
 
 ### Spring 2015: Java Swing Programming
 1. **T** - The type `MyPanel` is a subtype of `Object`.**
