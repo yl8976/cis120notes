@@ -12,7 +12,7 @@
 - Integers (`int`)
   - `x / y` - integer division
   - `x mod y` - modulus (remainder)
-  - `string_of_int x` - convert `x` to string `"x"`
+  - `string_of_int x` - convert integer `x` to string `"x"`
 - Booleans (`bool`)
   - `not` - logical negation
   - `&&` and `||` - "and" and "or"
@@ -21,7 +21,9 @@
   - `"hello" ^ " world"` - concatenation
 
 ### Generic Comparisons (produces a bool)
-- `=`, `<>`, `<`, `<=`, `>`, `>=`, `==`, `!=`
+- `<`, `<=`, `>`, `>=` are used for inequality.
+- `=` and  `<>` are used for **structural equality**.
+- `==` and `!=` are used for **referential equality**.
 
 ### Conditionals
 - `if x then y else z`
@@ -30,13 +32,13 @@
 ### Variables
 - `let x : type = y in`
 - `x` is called the _identifier_.
-- `in` is **required** iff the variable's scope is local.
+- `in` is **required** if and only if the variable's scope is local.
 - Shadowing may occur if variable is declared again.
 - The variable with the innermost scope is substituted first when evaluating the expression.
 
 ### Functions
 - `let f (x: type) (y: type): returnType = z in`
-- `in` is **required** iff the function's scope is local.
+- `in` is **required** if and only if the function's scope is local.
 
 ### Comments
 - `(* Insert comment here *)`
@@ -103,8 +105,57 @@ let rec f (l : ... list) ... : ... =
 ```
 
 ## Chapter 4 - Tuples and Nested Patterns
+### Tuples
+- Tuples are good when values are **not** all of the same type.
+- Tuple types are denoted by the infix `*` character.
+  - E.g. `(1, "uno") : int * string`
+- Tuples can be pattern matched:
+``` ruby
+let first (x:int * string) : int =
+  begin match x with
+  | (left, right) -> left
+  end
+```
+
+or:
+
+``` ruby
+let first (x:int * string) : int =
+  let (left, right) = x in left
+```
+
+- `()` is the empty tuple and has type `unit`.
+
+### Nested Patterns
+- Patterns are matched _in the other they appear_.
+- Cases must be _exhaustive_; otherwise you may get a `Match_failure` error.
+- Wildcards (represented by `_`) can be used as either:
+  - a catch-all case, or
+  - as a component of a match case that you don't need, e.g. the head of a list if you only use the tail.
+
+Example using nested patterns and wildcards:
+``` ruby
+let rec zip (l1 : int list) (l2 : string list) : (int * string) list =
+begin match (l1, l2) with (* note the tuple here! *)
+  | ([], []) -> []
+  | (x :: xs, y :: ys) -> (x,y) :: (zip xs ys)
+  | _ -> failwith "zip called on unequal-length lists"
+end
+```
 
 ## Chapter 5 - User-defined Datatypes
+``` ruby
+type day =
+  | Sunday
+  | Monday
+  | Tuesday
+  | Wednesday
+  | Thursday
+  | Friday
+  | Saturday
+```
+- In OCaml, user-defined types must be lowercase, and the constructors for such types must be uppercase identifiers.
+
 
 ## Chapter 6 - Binary Trees
 
