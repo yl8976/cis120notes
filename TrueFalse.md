@@ -4,17 +4,22 @@
 Answers to some True-False questions from the old final exams
 
 
-### Fall 2012: Java Programming
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
+**T** **F**
+### Fall 2012
+1. **T** - When you override the `equals` method of a class, you should be sure to override the `hashCode` method compatibly.
+2. **F** - If `A` is a subtype of `B`, then `Set<A>` is a subtype of `Set<B>`.
+3. **T** - When using the Java IO libraries, one should generally wrap a `FileReader` object inside a `BufferedReader` to prevent significant performance problems.
+4. **F** - It is possible to create an object of type `Set<int>`.
+5. **F** - An object's `static` type is always a subtype of its `dynamic` type.
+6. **F** - The value **null** can be assigned to a variable of any type.
+7. **T** - A method with the following declaration definitely will not throw an `IOException` to a calling context.
+``` ruby
+public void m() {...}
+```
+8. **T** - The `@Override` annotation prevents accidental overloading of a method.
+9. **F** - In some cases, dynamic dispatch of a method invocation requires the Java ASM to search the entire stack to find the appropriate code to run next.
+10. **F** - It is not possible to call a method declared as `static` from within a non-`static` method.
+
 
 ### Spring 2015: Java Swing Programming
 1. **T** - The type `MyPanel` is a subtype of `Object`.
