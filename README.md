@@ -1,5 +1,6 @@
 # CIS 120 Notes
 Created by [Young Lee](https://github.com/younglee327)
+
 Contributions from:
 - [Andrew Cui](https://github.com/andrew-cui)
 - [Stephanie Shi](https://github.com/stephanieyshi)
