@@ -4,7 +4,7 @@
 Answers to some True-False questions from the old final exams
 
 **T** **F**
-### Fall 2012
+### Fall 2012: Java Programming
 1. **T** - When you override the `equals` method of a class, you should be sure to override the `hashCode` method compatibly.
 2. **F** - If `A` is a subtype of `B`, then `Set<A>` is a subtype of `Set<B>`.
 3. **T** - When using the Java IO libraries, one should generally wrap a `FileReader` object inside a `BufferedReader` to prevent significant performance problems.
@@ -18,6 +18,43 @@ public void m() {...}
 8. **T** - The `@Override` annotation prevents accidental overloading of a method.
 9. **F** - In some cases, dynamic dispatch of a method invocation requires the Java ASM to search the entire stack to find the appropriate code to run next.
 10. **F** - It is not possible to call a method declared as `static` from within a non-`static` method.
+
+
+### Fall 2014: Java Concepts
+1. **F** - If `s` and `t` are variables of type `String` such that `s == t`, then `s.equals(t)` is guaranteed to return **true**. (ex: `s == null`)
+2. **T** - The call `m(new Object())` may throw a `NullPointerException` when `m` is declared with the type signature shown below:
+``` ruby
+public void m(Object o)
+```
+3. **F** - The call `m(**new** Object())` may throw an `IOException` when `m` is declared with the type signature shown below:
+``` ruby
+public void m(Object o)
+```
+4. **F** - The keyword `synchronized`, when applied to a method, ensures that at most one thread at a time is executing in the method's body.
+5. **T** - Whenever you override the `equals` method of a class, you should be sure to override the `hashCode` method compatibly.
+6. **F** - The `Circle` class below demonstrates how inheritance can be used to avoid code duplication:
+``` ruby
+public class Circle {
+  Point center;
+  public Circle(int x, int y) {
+    center = new Point(x, y);
+  }
+}
+```
+7. **T** - The variables `p` and `q` are **aliases** when the following program's execution reaches the line marked "HERE." (Assume that `ColoredPoint` is a subclass of `Point`.)
+``` ruby
+Point p = new Point(1, 2);
+Point q = new ColoredPoint(1, 2, Red);
+p = q;
+// HERE
+```
+8. **T** - A recommended way to improve the performance of Java programs that use file I/O is to use a **buffered** stream, like this:
+``` ruby
+InputStream f = new FileInputStream("filename.dat");
+InputStream fin = new BufferedInputStream(f);
+```
+9. **T** - The **this** reference is always guaranteed to be non-**null**.
+
 
 ### Spring 2015: Java Swing Programming
 1. **T** - The type `MyPanel` is a subtype of `Object`.**
