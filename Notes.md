@@ -12,13 +12,13 @@
 - Integers (`int`)
   - `x / y` - integer division
   - `x mod y` - modulus (remainder)
-  - `string_of_int x` - convert integer `x` to string `"x"`
+  - `string_of_int x` - convert integer `x` to string `x`
 - Booleans (`bool`)
   - `not` - logical negation
-  - `&&` and `||` - "and" and "or"
+  - `&&` and `||` - and and or
 - Strings (`string`)
-  - `"\n"` - newline character
-  - `"hello" ^ " world"` - concatenation
+  - `\n` - newline character
+  - `hello ^  world` - concatenation
 
 ### Generic Comparisons (produces a bool)
 - `<`, `<=`, `>`, `>=` **are used for inequality**.
@@ -44,19 +44,19 @@
 - `(* Insert comment here *)`
 
 ### Failwith
-- `failwith "Error string"`
+- `failwith Error string`
 - Can be used as placeholder text.
 - Terminates the program, so calling it too early will stop the rest of the code from being executed.
 
 ### Commands
-- `;; print_string "Hello World\n"`
-- `;; print_endline "Hello World"`
+- `;; print_string Hello World\n`
+- `;; print_endline Hello World`
 - `;; print_int 3`
 - Running Tests
 ``` ruby
 let test() : bool =
   (1 + 2 + 3) = 7
-;; run_test "1 + 2 + 3" test
+;; run_test 1 + 2 + 3 test
 ```
 
 ### Importing Files
@@ -72,7 +72,7 @@ let test() : bool =
 - Lists are either:
   - `[]` - the empty list (sometimes called `nil`)
   - `v :: tail` - a value `v` followed by `tail`, a list of the remaining elements
-- `::` constructs a non-empty list (hence called "cons")
+- `::` constructs a non-empty list (hence called cons)
   - Side note: `::` is therefore of type `'a -> 'a list -> 'a list` (I think?)
 - `[1; 2; 3]` and `1 :: 2 :: 3 :: []` are equivalent. The former is just shorthand for the latter.
 - You can have lists of lists.
@@ -111,7 +111,7 @@ let rec f (l : ... list) ... : ... =
 ### Tuples
 - Tuples are good when values are **not** all of the same type.
 - Tuple types are denoted by the infix `*` character.
-  - E.g. `(1, "uno") : int * string`
+  - E.g. `(1, uno) : int * string`
 - Tuples can be pattern matched:
 ``` ruby
 let first (x : int * string) : int =
@@ -142,7 +142,7 @@ let rec zip (l1 : int list) (l2 : string list) : (int * string) list =
 begin match (l1, l2) with (* note the tuple here! *)
   | ([], []) -> []
   | (x :: xs, y :: ys) -> (x,y) :: (zip xs ys)
-  | _ -> failwith "zip called on unequal-length lists"
+  | _ -> failwith zip called on unequal-length lists
 end
 ```
 
@@ -206,25 +206,28 @@ type my_string_list =
 ```
 
 ## Chapter 6 - Binary Trees
-- A binary tree is either `Empty` or it is a `Node` consisting of a left subtree, an integer label, and a right subtree.
+A **binary tree** is either `Empty` or it is a `Node` consisting of a left subtree, an integer label, and a right subtree.
+
 ``` ruby
 type tree =
   | Empty
   | Node of tree * int * tree
 ```
+
 - The root node is at the top of the tree.
 - A leaf is a node both of whose children are `Empty`.
 - Any node that is not a leaf is sometimes called an internal node of the tree.
 - The size of a tree is the total number of nodes in a tree.
 - A tree's height is the length of the longest path from the root to any leaf.
 
-- in-order traversal: left child, node, right children
-- pre-order: node, left child, right child
-- post order: left child, right child, node
+### Traversing Trees
+- In-order traversal: left child, node, right child
+- Pre-order traversal: node, left child, right child
+- Post order traversal: left child, right child, node
 
 
 ## Chapter 7 - Binary Search Trees
-Binary Search Tree Invariant:
+### The Binary Search Tree Invariant
 - `Empty` is a binary search tree.
 - A tree `Node(lt, x, rt)` is a binary search tree if `lt` and `rt` are both binary search trees, and every label of `lt` is less than `x` and every label of `rt` is greater than `x`.
 
@@ -241,16 +244,16 @@ let rec insert (t: tree) (n: int) : tree =
                        else Node(lt, x, insert rt n)
 ```
 
-Example: removing an element
+Example: removing an element in a binary search tree
 ``` ruby
-let rec tree_max (t: tree) : int =
+let rec tree_max (t : tree) : int =
   begin match t with
-  | Empty -> failwith "tree_max called on empty tree"
+  | Empty -> failwith tree_max called on empty tree
   | Node(_, x, Empty) -> x
   | Node(_, _, rt) -> tree_max rt
   end
 
-let rec delete (n:int) (t:tree) : tree =
+let rec delete (n : int) (t : tree) : tree =
   begin match t with
   | Empty -> Empty
   | Node(lt, x, rt) ->
@@ -267,24 +270,299 @@ let rec delete (n:int) (t:tree) : tree =
   end
 ```
 
-
 ## Chapter 8 - Generic Functions and Datatypes
+### Generic Functions
+- `'a` is a _type variable_, meaning that it can be instantiated to any type.
+- Type variables must agree all times they are named in a function. i.e., if `'a` is mentioned twice as inputs, the inputs (whatever they end up being) must be of the same type.
 
 ## Chapter 9 - First-class Functions
+- Functions _are_ values in OCaml.
+
+Example: twice function
+``` javascript
+let twice (f : int -> int) (x : int) : int =
+  f (f x)
+```
+
+### Anonymous Functions
+``` javascript
+fun (x : int) (y : int) -> x + y
+```
+
+Named version:
+``` javascript
+let sum : int -> int -> int = fun (x : int) (y : int) -> x + y
+```
+
+### List Transform
+```
+let rec transform (f: 'a -> b) (l: 'a list) : 'b list =
+  begin match l with
+  | [] -> []
+  | h :: tl -> (f h) :: (transform f tl)
+  end
+```
 
 ## Chapter 10 - Modularity and Abstraction
+The Set Interface
+```
+module type Set = sig (* A named interface called Set *)
+
+  type 'a set (* 'a is the element type *)
+
+  val empty : 'a set
+  val add : 'a -> 'a set -> 'a set
+  val union : 'a set -> 'a set -> 'a set
+  val remove : 'a -> 'a set -> 'a set
+  val list_to_set : 'a list -> 'a set
+  val is_empty : 'a set -> bool
+  val member : 'a -> 'a set -> bool
+  val equal : 'a set -> 'a set -> bool
+  val elements : 'a set -> 'a list
+end
+```
+
+Set Implementation
+```
+module LSet : Set = struct
+  (* inside the module we represent sets as lists *)
+  (* INVARIANT: the list contains no duplicates *)
+
+  type 'a set = 'a list
+
+  let empty : 'a set =
+    []
+
+  let rec member (x : 'a) (s : 'a set) : bool =
+    begin match s with
+    | [] -> false
+    | y :: rest -> x = y || member x rest
+    end
+
+  let add (x : 'a) (s : 'a set) : 'a set =
+    if (member x s) then s
+    else x :: s
+
+  let rec remove (x : 'a) (s : 'a set) : 'a set =
+    begin match s with
+    | [] -> []
+    | y :: rest ->
+      if x = y then rest
+      else y :: (remove x rest)
+    end
+
+  ... (* implement the rest of the operations *)
+
+end
+```
+
+The Map Interface
+```
+module type Map = sig
+
+  type ('k,'v) map
+
+  val empty : ('k, 'v) map
+  val add : 'k -> 'v -> ('k, 'v) map -> ('k, 'v) map
+  val remove : 'k -> ('k, 'v) map -> ('k, 'v) map
+  val mem : 'k -> ('k, 'v) map -> bool
+  val get : 'k -> ('k, 'v) map -> 'v
+  val entries : ('k, 'v) map -> ('k * 'v) list
+  val equals : ('k, 'v) map -> ('k, 'v) map -> bool
+end
+```
+
+Find the map implementation in pages 107-108 of the textbook.
 
 ## Chapter 11 - Partial Functions: Option Types
+The option datatype
+```
+type 'a option =
+| None
+| Some of 'a
+```
 
 ## Chapter 12 - Unit and Sequencing Commands
+### Types of OCaml Commands
+``` javascript
+print_string : string -> unit
+print_endline : string -> unit
+print_int : int -> unit
+run_test : string -> (unit -> bool) -> unit
+```
+
+### Using ";"
+- In OCaml programs (but not the top-level loop), `;` is always a separator, not a terminator. The list below collects together all the syntax combinations that use `;`:
+  - `;; open Assert` open a module at the top-level of a program
+  - `;; print_int 3` run a command at the top-level of a program
+  - `[1; 2; 3]` separate the elements of a list
+  - `e1; e2` sequence a command e1 before the expression e2
+  - `{x : int; y : int}` separate the fields of a record type
+  - `{x = 3; y = 4}` separate the fields of a record value
+We have also seen that, when executing OCaml expressions in the top-level interactive loop, we use `;;` as a terminator to let OCaml know when to run a given
+expression.
 
 ## Chapter 13 - Records of Named Fields
+Example
+``` javascript
+type rgb = { r : int; g : int; b : int }
+let red : rgb = { r = 255; g = 0; b = 0 }
+let cyan = { blue with g = 255 }
+
+type employee = {
+  name : string;
+  age : int;
+  salary : int;
+  division : string
+}
+```
+
 
 ## Chapter 14 - Mutable State and Aliasing
+Example
+``` javascript
+type state = { mutable count : int }
+
+let global : state = { count = 0 }
+
+let rec tree_max3 (t : a tree) : a =
+  global.count <- global.count + 1; (* update the count *)
+  begin match t with
+  | Empty -> failwith "tree_max called on empty tree"
+  | Node(_, x, Empty) -> x
+  | Node(_, _, rt) -> tree_max3 rt
+  end
+```
 
 ## Chapter 15 - The Abstract Stack Machine
+There are three basic parts of the abstract stack machine model:
+  - The _workspace_ keeps track of the expression or command that the computer is currently simplifying. As the program evaluates, the contents of the workspace change to reflect the progress being made by the computation.
+  - The _stack_ keeps track of a sequence of bindings that map identifiers to their values. New bindings are added to the stack when the `let` expression is simplified. Later, when an identifier is encountered during simplification, its associated value can be found by looking in the stack. The stack also keeps track of partially simplified expressions that are waiting for the results of function calls to be computed.
+  - The _heap_ models the computer’s memory, which is used for storage of non-primitive data values. It specifies (abstractly) where data structures reside, and shows how they reference one another.
+
+The _stack_ only contains two types of values: **primitives** and **references to the _heap_**.
+
+The _heap_ contains three types of data:
+  1. A _cell_ is labeled by a datatype constructor (such as `Cons` or `Nil`) and contains a sequence of constructor arguments. Constructor names also take up some space in the heap.
+  2. A _record_ contains a value for each of its fields. Their field names **don't** take up space in the heap.
+  3. A _function_, which is just an anonymous function value of the form `(fun (x1:t1) ... (xn:tn) -> e)`.
+
+Variables in the stack are looked up recent-first. i.e., it is done in a last-in-first-out (LIFO) manner.
+
+- _Structural equality_, written =, is the most appropriate equality operator for comparing immutable data structures. This operator recursively traverses the structure of data to determine whether its arguments are equal.
+
+- _Referential equality_, written ==, is the most appropriate equality for mutable data structures. This operator only looks at heap locations, so equates fewer things than structural equality.
 
 ## Chapter 16 - Linked Structures: Queues
+The Queue Interface
+```
+module type QUEUE = sig
+  (* type of the data structure *)
+  type 'a queue
+
+  (* Make a new, empty queue *)
+  val create : unit -> 'a queue
+
+  (* Determine if the queue is empty *)
+  val is_empty : 'a queue -> bool
+
+  (* Add a value to the tail of the queue *)
+  val enq : 'a -> 'a queue -> unit
+
+  (* Remove the head value and return it (if any) *)
+  val deq : 'a queue -> 'a
+end
+```
+
+Queue Implementation
+```
+module Q : QUEUE = struct
+
+  type 'a qnode = {
+    v : 'a;
+    mutable next : 'a qnode option;
+  }
+
+  type 'a queue = {
+  mutable head : 'a qnode option;
+  mutable tail : 'a qnode option;
+  }
+
+  let enq (x : 'a) (q : 'a queue) : unit =
+    let newnode = {v=x; next=None} in
+    begin match q.tail with
+    | None ->
+      (* Note that the invariant tells us that q.head is also None *)
+      q.head <- Some newnode;
+      q.tail <- Some newnode
+    | Some n ->
+      n.next <- Some newnode;
+      q.tail <- Some newnode
+    end
+
+  let deq (q : 'a queue) : 'a =
+    begin match q.head with
+    | None ->
+      failwith "deq called on empty queue"
+    | Some n ->
+      q.head <- n.next;
+      if n.next = None then q.tail <- None;
+      n.v
+    end
+
+  let length (q : 'a queue) : int =
+    let rec loop (no : 'a qnode option) (len : int) : int =
+      begin match no with
+      | None -> len
+      | Some n -> loop n.next (1 + len) (* Using iteration *)
+      end
+    in
+    loop q.head 0
+
+  let print (q:'a queue) (string_of_element:'a -> string) : unit =
+    let rec loop (no: 'a qnode option) : unit =
+      begin match no with
+      | None -> ()
+      | Some n -> print_endline (string_of_element n.v);
+      loop n.next
+      end
+    in
+    print_endline "--- queue contents ---";
+    loop q.head;
+    print_endline "--- end of queue -----"
+
+  let to_list (q: 'a queue) : 'a list =
+    let rec loop (no: 'a qnode option) (l:'a list) : 'a list =
+      begin match no with
+      | None -> List.rev l
+      | Some n -> loop n.next (n.v::l)
+      end
+    in loop q.head []
+
+  let sum (q: int queue) : int =
+    let rec loop (no: int qnode option) (sum:int) : int =
+      begin match no with
+      | None -> sum
+      | Some n -> loop n.next (sum + n.v)
+      end
+    in loop q.head 0
+
+end
+```
+
+### The Queue Invariant
+A data structure of type `'a queue` satisfies the queue invariants if (and only if), either
+  1. `both` `head` and `tail` are `None`, or,
+  2. `head` is `Some n1` and `tail` is `Some n2`, and
+    - `n2` is reachable by following `next` pointers from `n1`
+    - `n2.next` is `None`
+
+### Iteration and Tail Call Optimization
+- A function call that would result in pushing an empty workspace is said to be in a _tail call_ position.
+- The ASM optimizes such functions as described above— it doesn’t push the (empty) workspace, and it eagerly pops off stack bindings. This process is called _tail call optimization_, and it is frequently used in functional programming.
+-  It effectively turns _recursion_ into _iteration_. Imperative programming languages include `for` and `while` loops that are used to iterate a fragment of code multiple times. The essence of such iteration is that only a **constant amount of stack space is used** and that parts of the program state are updated each time around the loop, both to accumulate an answer and to determine when the loop should finish.
+- Using a `loop` using tail calls in OCaml is **equivalent** to writing a `while` loop in Java.
+- Infinite loops created within functions that use iteration may loop silently, as it does not create stack overflow errors.
 
 ## Chapter 17 - Local State
 
