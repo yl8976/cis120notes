@@ -21,7 +21,7 @@
   - `"hello" ^ " world"` - concatenation
 
 ### Generic Comparisons (produces a bool)
-- `<`, `<=`, `>`, `>=` are used for inequality.
+- `<`, `<=`, `>`, `>=` **are used for inequality**.
 - `=` and  `<>` are used for **structural equality**.
 - `==` and `!=` are used for **referential equality**.
 
@@ -114,7 +114,7 @@ let rec f (l : ... list) ... : ... =
   - E.g. `(1, "uno") : int * string`
 - Tuples can be pattern matched:
 ``` ruby
-let first (x:int * string) : int =
+let first (x : int * string) : int =
   begin match x with
   | (left, right) -> left
   end
@@ -123,7 +123,7 @@ let first (x:int * string) : int =
 or:
 
 ``` ruby
-let first (x:int * string) : int =
+let first (x : int * string) : int =
   let (left, right) = x in left
 ```
 
@@ -147,7 +147,8 @@ end
 ```
 
 ## Chapter 5 - User-defined Datatypes
-``` ruby
+### Defining a New Datatype
+``` javascript
 type day =
   | Sunday
   | Monday
@@ -158,7 +159,51 @@ type day =
   | Saturday
 ```
 - In OCaml, user-defined types must be lowercase, and the constructors for such types must be uppercase identifiers.
+- They are analogous to enums in Java.
 
+### Datatypes with Extra Information
+``` ruby
+type nucleotide =
+  | A (* adenine *)
+  | C (* cytosine *)
+  | G (* guanine *)
+  | T (* thymine *)
+
+type experiment =
+  | Missing
+  | NucCount of nucleotide * int
+  | CodonCount of (nucleotide * nucleotide * nucleotide) * int
+```
+
+In general:
+``` ruby
+type typeName =
+  | Constructor1
+  | Constructor2 of extraDataType
+```
+
+Example values:
+``` ruby
+Missing
+NucCount(A, 10)
+CodonCount((A, C, T), 23)
+```
+Note that you can also pattern match on these custom datatypes.
+
+### Type Abbreviations
+Existing types can be used to define new types:
+``` javascript
+type codon = nucleotide * nucleotide * nucleotide
+type helix = nucleotide list
+```
+
+### Recursive Types
+Types can be recursive:
+``` ruby
+type my_string_list =
+| Nil
+| Cons of string * my_string_list
+```
 
 ## Chapter 6 - Binary Trees
 - A binary tree is either `Empty` or it is a `Node` consisting of a left subtree, an integer label, and a right subtree.
