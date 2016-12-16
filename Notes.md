@@ -871,3 +871,74 @@ if you need unicode console I/O
 ## Chapter 32 - Java Design Exercise: Resizable Arrays
 
 ## Chapter 33 - Encapsulation and Queues
+
+## Miscellaneous
+### Hash Sets and Hash Maps
+- Combines advantage of arrays (efficient random access to its elements) with the advantage of a
+map data structure (arbitrary keys, not just integer indices)
+- Creates an index into an array by hashing the data in the key to turn it into the integer
+    - `hashCode` method maps key data to ints
+    - Unlike array indices, hashCodes might not be unique
+- Solution to collisions: using an array of _buckets_
+    - Each bucket stores the mappings for keys that have the same hash
+    - Each bucket is itself a map from keys to values (implemented by a linked list or binary search tree)
+    - Buckets can't use hashing to index the values - instead they use key equality
+- To lookup a key in the Hash Map:
+    1. Find the right bucket by indexing the array through the key's hashing
+    2. Search through the bucket to find the value associated with the key
+- When you override `equals` must also override `hashCode` in a consistent way
+   - if `o1.equals(o2) == true` then `o1.hashCode() == o2.hashCode()` (note that converse is not necessarily true)
+- Computing hashes: "smear" data throughout all the bits of the resulting integer
+
+HashMap Performance
+- Depends on workload
+- If `hashCode` is good, buckets are small
+
+### Threads and Synchronization
+- Java programs can be _multithreaded_: more than one "thread" of control operating simultaneously
+   - Useful when one program needs to do multiple things simultaneously
+- A `Thread` object can be created from any class that implements the `Runnable` interface
+    - `start`: launch the thread
+    - `join`: wait for the thread to finish
+- ASM
+    - Each thread has own workspace and stack
+    - All threads share a common heap
+    - Threads can communicate via shared references
+- Java provides the `synchronized` keyword
+    - Only one thread at a time can be active in a synchronized method
+    - Careful use can rule-out races
+    - Tradeoff: less concurrency means worse performance
+- Need _thread safe_ libraries
+    - `java.util.concurrent` has `BlockingQueue` and `ConcurrentMap`
+    - help rule out synchronization errors
+    - Note: Swing is _not_ thread safe!
+- Locks: objects that act as synchronizers for blocks of code
+    - _deadlock_: cyclic dependency on synchronization
+- Read-only data structures are immune to race conditions
+
+### Garbage Collections
+- Some languages use manual memory management, but Java uses garbage collection (woot!)
+   - Manual memory management is cumbersome and error prone
+   - Garbage collection has many advantages, including:
+       - Language runtime system determines when an allocated chunk of memory will no longer be used and free it automatically.
+       - Extremely convenient and safe
+   - However, GC does have costs on performance and predictability
+       - Lots of dead objects might affect performance
+       - Space leak: global data structures can have references to "zombie" objects that won't be used, but are still reachable
+
+Approaching GC:
+- Problem can be approached by freeing memory that can't be reached from any _root_ references
+    - _root_ reference - one that might be directly accessible from the program (not in heap)  
+    - examples include references in the stack and global static fields
+    - if an object can be reached by traversing points from a root, it is _live_
+    - safe to reclaim heap allocations not reachable from a root (garbage or dead objects)
+
+Mark and Sweep:
+1. Mark
+   - Start from roots
+   - Do depth-first traversal
+2. Sweep
+   - Walk over all allocated objects and check for marks
+   - Unmarked objects are reclaimed
+   - Marked objects have their marks cleared
+   - Optional: compact all live objects by moving them adjacent to one another
