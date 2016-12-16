@@ -863,6 +863,66 @@ for (Book book : shelf) {
 - Strongly recommended to be compatible with `equals` (i.e. `o1.equals(o2)` exactly when `o1.compareTo(o2) == 0`)
 
 ## Chapter 26 - Overriding and Equality
+Consider the following:
+``` java
+class C {
+  public void printName() {
+    System.out.println("I'm a " + getName());
+  }
+
+  public String getName() {
+    return "C";
+  }
+}
+
+class E extends C {
+  public String getName() {
+    return "E";
+  }
+}
+
+// in main
+C c = new E();
+c.printName();
+// The string "I'm a E" is printed to the console
+```
+
+- `"I'm a E"` is printed because the **dynamic class of the method determines every method invocation**.
+- Class authors can prevent subclasses from overriding their methods by using the `final` modifier. This prevents subclasses from overriding that particular method.
+- `equals` is a method that is frequently overridden, usually when the class represents immutable values (e.g. the `Point` and `String` classes).
+
+### Conditions for Equality
+- It is reflexive: for any non-`null` reference value `x`, `x.equals(x)` should return true.
+- It is symmetric: for any non-`null` reference values `x` and `y`, `x.equals(y)` should return true if and only if `y.equals(x)` returns true.
+- It is transitive: for any non-`null` reference values `x`, `y`, and `z`, if `x.equals(y)` returns true and `y.equals(z)` returns true, then `x.equals(z)` should return true.
+- It is consistent: for any non-`null` reference values `x` and `y`, multiple invocations of `x.equals(y)` consistently return true or consistently return false, provided no information used in equals comparisons on the objects is modified.
+- For any non-`null` reference value `x`, `x.equals(null)` should return false.
+
+### Using `instanceof`
+``` java
+Point p = new Point(1,2);
+Object o1 = p;
+Object o2 = "hello";
+p instanceof Point == true
+o1 instanceof Point == true
+o2 instanceof Point == false
+p instanceof Object == true
+null instanceof Object == false // null is not an instance of any class
+```
+
+### Example Use of Overriding `.equals`
+``` java
+@Override
+  public boolean equals(Object o) {
+  if (o == null) return false;
+  if (this == o) return true;
+  if (!(getClass() == o.getClass())) return false;
+  Point that = (Point) o;
+  if (x != that.x) return false;
+  if (y != that.y) return false;
+  return true;
+}
+```
 
 ## Chapter 27 - Exceptions
 - Exceptions that are subtypes of `Exception` but not `RuntimeException` are called checked or declared.
