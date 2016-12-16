@@ -752,6 +752,20 @@ Some notes about arrays:
 - Mutable fields are indicated by **bolded boxes**.
 
 ## Chapter 23 - Subtyping, Extension and Inheritance
+- Java is also a strongly-typed language; every expression can be given a type.
+- A Java class is _also_ a type.
+- Both _interfaces_ and _classes_ can implement multiple interfaces.
+- An _interface_ can extend multiple interfaces, but a _class_ can **only extend one class** (excluding `Object`, implicitly).
+- An extended class does not, by default, have access to the superclass's `private` methods and fields; however, the `protected` keyword can be used to make a method or field visible within a class and all of its subclasses, no matter where they are defined.
+- The `super` keyword, which can be invoked as a method, is used to call a superclass's constructor.
+- Class hierarchies form trees, while interfaces don't necessarily.
+- The `Object` class provides the `toString` (object to `String` representation) and `equals` (structural equality) methods.
+
+### Static Types and Dynamic Classes
+- The static type determines which methods can be used.
+- The dynamic type determines which method will be invoked at run time.
+- The dynamic type must be equal to or be a subtype of the static type (unless the static type is an interface or an abstract class, in which case the dynamic type must be a class that is a subtype of the static type).
+
 
 ## Chapter 24 - The Java ASM and Dynamic Methods
 
