@@ -758,9 +758,9 @@ Some notes about arrays:
 - Java is also a strongly-typed language; every expression can be given a type.
 - A Java class is _also_ a type.
 - Both _interfaces_ and _classes_ can implement multiple interfaces.
-- An _interface_ can extend multiple interfaces, but a _class_ can **only extend one class** (excluding `Object`, implicitly).
+- An _interface_ can extend multiple interfaces, but a _class_ can **only extend one other class** (otherwise it extends `Object`, implicitly).
 - An extended class does not, by default, have access to the superclass's `private` methods and fields; however, the `protected` keyword can be used to make a method or field visible within a class and all of its subclasses, no matter where they are defined.
-- The `super` keyword, which can be invoked as a method, is used to call a superclass's constructor.
+- The `super` keyword, which can be invoked as a method, is used to call a superclass's constructor. (It is implicitly called to extend the superclass `Object` if the class does not explicitly extend another class.)
 - Class hierarchies form trees, while interfaces don't necessarily.
 - The `Object` class provides the `toString` (object to `String` representation) and `equals` (structural equality) methods.
 
@@ -769,10 +769,81 @@ Some notes about arrays:
 - The dynamic type determines which method will be invoked at run time.
 - The dynamic type must be equal to or be a subtype of the static type (unless the static type is an interface or an abstract class, in which case the dynamic type must be a class that is a subtype of the static type).
 
-
 ## Chapter 24 - The Java ASM and Dynamic Methods
+Invoking a constructor:
+  - allocates space for a new object in the heap,
+  - includes slots for _all_ fields of _all_ ancestors in the class tree,
+  - creates a pointer to the class (this is the object's dynamic type),
+  - calls its superclass constructor _first_, even if it's not explicitly done with `super`,
+  - and runs the constructor body after pushing parameters and `this` onto the stack.
+
+Fields start with a "sensible" default - `0` for numeric values and `null` for references.
+
+### Dynamic Dispatch (in more detail)
+- When an object's method is invoked, as in `o.m()`, the code that runs is determined by `o`’s dynamic class.
+- The dynamic class, which is just a pointer to a class, is included in the object structure in the heap.
+- If the method is inherited from a superclass, determining the code for `m` might require searching up the class hierarchy via pointers in the class table.
+- Once the code for `m` has been determined, a binding for `this` is pushed onto the stack. The `this` pointer is used to resolve field accesses and method invocations inside the code.
+- This process is called dynamic dispatch.
+
+### Miscellaneous Notes
+- `static` fields are stored in the _Class Table_.
+  - The best use for `static` fields are for constants (e.g. `Math.PI`).
+- `static` methods do not access to a `this` pointer while executing. This means they cannot refer to fields in a class or call non-static methods directly. However, they can still create a new object and call the non-static methods using that object.
 
 ## Chapter 25 - Generics, Collections, and Iteration
+### Generics
+- When subtyping with generics, the type parameter must be _invariant_. i.e., Even if `B` is a subtype of `A`, `Queue<B>` is not necessarily a subtype of `Queue<A>`.
+
+### Collections
+- `Collection` is extended by `List`, `Deque`, and `Set` interfaces. `Map` is on its own.
+  - The `Collection` interface's `contains` and `remove` methods take in `Object` objects since they only use the `.equals` method to check for equality.
+- `LinkedList`s are like deques.
+- `ArrayList`s and `ArrayDeque`s are like resizable arrays.
+- `TreeSet` and `TreeMap` are BST-based implementations.
+- `HashSet` and `HashMap` are hashing-based implementations.
+
+### Iterating Over Collections
+- All `Collection`s (_and arrays!_) are subtypes of `Iterable`.
+- `Iterable` objects provides access to an `Iterator` for the object.
+
+The `Iterable<E>` interface:
+``` java
+interface Iterable<E> {
+  public Iterator<E> iterator();
+}
+```
+
+The `Iterator<E>` interface:
+``` java
+interface Iterator<E> {
+  public boolean hasNext();
+  public E next();
+  public void delete(); // optional
+}
+```
+
+Using `Iterator`s
+``` java
+List<Book> shelf = ... // create a list of Books
+
+// iterate through the elements on the shelf
+Iterator<Book> iter = shelf.iterator();
+while (iter.hasNext()) {
+  Book book = iter.next();
+  catalogue.addInfo(book);
+  numBooks = numbooks++;
+}
+```
+
+Alternatively, you can use a for-each loop:
+``` java
+// iterate through the elements on a shelf
+for (Book book : shelf) {
+  catalogue.addInfo(book);
+  numBooks = numbooks++;
+}
+```
 
 ### All	collections	use	`equals`
 - Defaults to `==` (reference equality)
