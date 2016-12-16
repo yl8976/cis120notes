@@ -1004,6 +1004,15 @@ Approaching GC:
     - if an object can be reached by traversing points from a root, it is _live_
     - safe to reclaim heap allocations not reachable from a root (garbage or dead objects)
 
+Reference Counting:
+- Each heap object tracks how many references point to it
+- When reference count goes to 0, reclaim that space and decrement counts for objects pointed to by that object
+- Problem: cyclic data, which will never decrement to 0 (space leak)
+   - Option 1: Require programmers to explicitly null-out references
+   - Option 2: Periodically run GC to collect cycles
+   - Option 3: Require programmers to distinguish "weak pointers" from "strong pointers"
+       - If all references to an object are "weak", then object can be freed
+
 Mark and Sweep:
 1. Mark
    - Start from roots
@@ -1013,3 +1022,9 @@ Mark and Sweep:
    - Unmarked objects are reclaimed
    - Marked objects have their marks cleared
    - Optional: compact all live objects by moving them adjacent to one another
+
+Copying Garbage Collection
+- Traverse over live objects in active region (_from-space_), copying them to the idle region (_to-space_)
+- After copying all reachable data, switch roles of the from-space and the to-space
+- All dead objects in old from-space are discarded
+- Side effect: all live objects are compacted together
