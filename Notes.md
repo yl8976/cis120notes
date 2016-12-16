@@ -792,6 +792,58 @@ Fields start with a "sensible" default - `0` for numeric values and `null` for r
 - `static` methods do not access to a `this` pointer while executing. This means they cannot refer to fields in a class or call non-static methods directly. However, they can still create a new object and call the non-static methods using that object.
 
 ## Chapter 25 - Generics, Collections, and Iteration
+### Generics
+- When subtyping with generics, the type parameter must be _invariant_. i.e., Even if `B` is a subtype of `A`, `Queue<B>` is not necessarily a subtype of `Queue<A>`.
+
+### Collections
+- `Collection` is extended by `List`, `Deque`, and `Set` interfaces. `Map` is on its own.
+  - The `Collection` interface's `contains` and `remove` methods take in `Object` objects since they only use the `.equals` method to check for equality.
+- `LinkedList`s are like deques.
+- `ArrayList`s and `ArrayDeque`s are like resizable arrays.
+- `TreeSet` and `TreeMap` are BST-based implementations.
+- `HashSet` and `HashMap` are hashing-based implementations.
+
+### Iterating Over Collections
+- All `Collection`s (_and arrays!_) are subtypes of `Iterable`.
+- `Iterable` objects provides access to an `Iterator` for the object.
+
+The `Iterable<E>` interface:
+``` java
+interface Iterable<E> {
+  public Iterator<E> iterator();
+}
+```
+
+The `Iterator<E>` interface:
+``` java
+interface Iterator<E> {
+  public boolean hasNext();
+  public E next();
+  public void delete(); // optional
+}
+```
+
+Using `Iterator`s
+``` java
+List<Book> shelf = ... // create a list of Books
+
+// iterate through the elements on the shelf
+Iterator<Book> iter = shelf.iterator();
+while (iter.hasNext()) {
+  Book book = iter.next();
+  catalogue.addInfo(book);
+  numBooks = numbooks++;
+}
+```
+
+Alternatively, you can use a for-each loop:
+``` java
+// iterate through the elements on a shelf
+for (Book book : shelf) {
+  catalogue.addInfo(book);
+  numBooks = numbooks++;
+}
+```
 
 ### All	collections	use	`equals`
 - Defaults to `==` (reference equality)
