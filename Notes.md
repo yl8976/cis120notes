@@ -566,11 +566,123 @@ A data structure of type `'a queue` satisfies the queue invariants if (and only 
 
 ## Chapter 17 - Local State
 
+``` javascript
+type counter = {
+  incr : unit -> unit;
+  decr : unit -> unit;
+  get : unit -> int;
+  reset : unit -> unit;
+}
+
+let mk_counter () : counter =
+  let ctr : state = {count = 0} in
+  {
+  incr = (fun () -> ctr.count <- ctr.count + 1);
+  decr = (fun () -> ctr.count <- ctr.count - 1);
+  get = (fun () -> ctr.count);
+  reset = (fun () -> ctr.count <- 0);
+  }
+
+let ctr1 : counter = mk_counter () in
+let ctr2 : counter = mk_counter () in
+;; ctr1.incr ();
+;; ctr2.incr ();
+;; ctr1.incr ();
+let ans : int = ctr1.get ()
+```
+
+### `'a refs`
+`type 'a ref = {mutable contents : 'a}`
+`ref e` means `{contents = e}`
+`!e` means `e.contents`
+`e := v` means `e.contents <- v`
+
 ## Chapter 18 - Wrapping Up OCaml: Designing a GUI Library
 
 ## Chapter 19 - Transition to Java
+### Interfaces in Java
+``` java
+public interface Displaceable {
+  public int getX ();
+  public int getY ();
+  public void move(int dx, int dy);
+}
+
+public void moveItALot(Displaceable s) {
+  s.move(3,3);
+  s.move(100, 1000);
+  s.move(s.getX(), s.getY());
+}
+
+public class Point implements Displaceable {
+  private int x, y;
+
+  public Point(int x0, int y0) {
+    x = x0;
+    y = y0;
+  }
+
+  public int getX() { return x; }
+  public int getY() { return y; }
+
+  public void move(int dx, int dy) {
+    x = x + dx;
+    y = y + dy;
+  }
+}
+
+class ColorPoint implements Displaceable {
+  private Point p;
+  private Color c;
+
+  ColorPoint (int x0, int y0, Color c0) {
+    p = new Point(x0,y0);
+    c = c0;
+  }
+
+  public void move(int dx, int dy) {
+    p.move(dx, dy);
+  }
+
+  public int getX() { return p.getX(); } // Delegates the implementation to the Point object p
+
+  public int getY() { return p.getY(); }
+
+  public Color getColor() { return c; }
+}
+```
 
 ## Chapter 20 - Connecting OCaml to Java
+### Java Primitives
+``` java
+int // standard integers
+byte, short, long // other flavors of integers
+char // unicode characters
+float, double // floating-point numbers
+boolean // true and false
+```
+
+Unlike OCaml, some of Java's operations are **overloaded**; i.e., they can be applied to multiple types. It will also automatically convert numeric types to another:
+``` java
+4 / 3 == 1
+4.0 / 3.0 == 1.3333333333333333
+4 / 3.0 == 1.3333333333333333
+```
+### Primitive Operations in OCaml vs. Java
+|    OCaml     |     Java     | Description         |
+|:------------:|:------------:|:------------------- |
+|    = ==      |      ==      | Equality Test       |
+|    <> !=     |      !=      | Inequality          |
+|  < <= > >=   |   < <= > >=  | Comparisons         |
+|     +        |      +       | Addition            |
+|     -        |      -       | Subtraction         |
+|     /        |      /       | Division            |
+|     *        |      *       | Multiplication      |
+|    mod       |      %       | Remainder (Modulus) |
+|    not       |      !       | Logical "not"       |
+|    &&        |      &&      | Logical "and"       |
+| &#124;&#124; | &#124;&#124; | Logical "or"        |
+
 
 ## Chapter 21 - Arrays
 
@@ -581,6 +693,22 @@ A data structure of type `'a queue` satisfies the queue invariants if (and only 
 ## Chapter 24 - The Java ASM and Dynamic Methods
 
 ## Chapter 25 - Generics, Collections, and Iteration
+
+All	collections	use	equals
+– Defaults to == (reference equality)
+– Override equals to create structural equality
+– Should be: false for distinct instance classes
+– An equivalence relation: reflexive, symmetric, transitive
+- HashSets/HashMaps use hashCode
+– Override when equals is overridden
+– Should be compatible with equals
+– Should try to "distribute" the values uniformly
+– Iterator not guaranteed to follow element order
+• Ordered collections (TreeSet, TreeMap) need to implement Comparable<Object>
+– Override compareTo
+– Should implement a total order
+– Strongly recommended to be compatible with equals
+(i.e. o1.equals(o2) exactly when o1.compareTo(o2) == 0)
 
 ## Chapter 26 - Overriding and Equality
 
