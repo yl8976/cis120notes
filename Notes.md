@@ -277,6 +277,9 @@ let rec delete (n:int) (t:tree) : tree =
 ## Chapter 11 - Partial Functions: Option Types
 
 ## Chapter 12 - Unit and Sequencing Commands
+- Can define values of type unit
+- Can pattern match unit
+- Unit is the result of an implicit branch
 
 ## Chapter 13 - Records of Named Fields
 
