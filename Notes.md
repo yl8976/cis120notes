@@ -817,7 +817,7 @@ Some notes about arrays:
 - Result: lower overhead
 
 ### Standard Java Streams
-- Bye streams
+- Byte streams
 - `System.in` - standard input (keyboard)
 - `System.out` - standard output (display)
 - `System.err` - standard error (display)
@@ -831,6 +831,38 @@ Some notes about arrays:
 if you need unicode console I/O
 
 ## Chapter 29 - Swing: GUI Programming in Java
+### Terminology Overview
+|                    |  OCaml                                              |  Java                                            |
+|:------------------:|:---------------------------------------------------:|:------------------------------------------------:|
+| Graphics Context   | `Gctx.gctx`                                         | Graphics                                         |
+| Widget Type        | `Widget.widget`                                     | `JComponent`                                     |
+| Basic Widgets      | button, label, checkbox                             | `JButton`, `JLabel`, `JCheckBox`                 |
+| Container Widgets  | hpair, vpair                                        | `JPanel`, Layouts                                |
+| Events             | event                                               | `ActionEvent`, `MouseEvent`, `KeyEvent`          |
+| Event Listener     | mouse_listener, mouseclick_listener (event -> unit) | `ActionListener`, `MouseListener`, `KeyListener` |
+
+### `JComponent`
+- Subclasses override methods
+    - `paintComponent` - displays component
+    - `getPreferred` - calculates size of component
+    - events handled by listeners
+
+### Inner Classes
+- Also called "dynamic nested classes"
+- Classes can be members of other classes
+- Can refer to instance variables and methods of the outer classes
+- Inner class instances cannot be created independently of a containing class instance
+    ``` java
+    Outer a = new Outer();
+    Outer.Inner b = a.new Inner();
+
+    Outer.Inner b = (new Outer()).new Inner();
+    ```
+- Anonymous inner classes: define a class and create an object from it all at once, inside a method
+    - no constructors allowed
+    - static type of the expression is the interface/superclass used to create it
+    - dynamic type of created object is anonymous; cannot be referred to
+    - Java equivalent of OCaml first-class functions
 
 ## Chapter 30 - Swing: Layout and Drawing
 
