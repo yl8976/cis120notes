@@ -794,6 +794,13 @@ Some notes about arrays:
 ## Chapter 26 - Overriding and Equality
 
 ## Chapter 27 - Exceptions
+- Exceptions that are subtypes of `Exception` but not `RuntimeException` are called checked or declared.
+- Subtypes of `RuntimeException` are unchecked and do not need to be declared.
+    - `NullPointerException`
+    - `IndexOutOfBoundsException`
+    - `IllegalArgumentException`
+- Use declared exceptions for libraries, where documentation and usage enforcement are critical.
+- Use undeclared exceptions in client code to facilitate more flexible development.
 
 ## Chapter 28 - I/O
 - The stream abstraction represents a communication channel with the outside world.
