@@ -692,18 +692,19 @@ Unlike OCaml, some of Java's operations are **overloaded**; i.e., they can be ap
   - `static` methods are good for implementing functions that **don't depend on any objects' states**.
 
 ## Chapter 21 - Arrays
+The largest legal array index for a given array `a[]` is always `a.length - 1`.
 
-- The largest legal array index for a given array `a[]` is always `a.length - 1`.
-- Array elements are mutable:
+Array elements are mutable:
 ``` java
 a[i] = v;
 ```
-- Instantiating a new array:
+
+Instantiating a new array:
 ``` java
 int[] arr = new int[10];
 ```
 
-or, if you know the values already:
+Or, if you know the values already:
 ``` java
 int[] arr = { 1, 2, 3 };
 Point[] pointArray = { new Point(1,3), new Point(5,4) };
@@ -722,8 +723,9 @@ while (i < 5) { // loop guard
 ```
 
 ### 2-D Arrays
-- Conventionally, 2-D arrays go _row then column_: `arr[row][column]`.
-- Iterate over 2-D arrays by the following:
+Conventionally, 2-D arrays go _row then column_: `arr[row][column]`.
+
+Iterate over 2-D arrays by the following:
 ``` java
 for (int r = 0; r < arr.length; r++){
 // use the length of the inner array
@@ -732,10 +734,22 @@ for (int r = 0; r < arr.length; r++){
   }
 }
 ```
-- Make sure you don't use aliases when storing objects inside arrays!
 
+Some notes about arrays:
+  - Make sure you don't use aliases when storing objects inside arrays.
+  - The array length is _never_ mutable.
+  - The array's elements are _always_ mutable.
 
 ## Chapter 22 - The Java ASM
+### Differences between the OCaml and Java ASMs
+- Almost everything, including variables stored on the _stack_, is **mutable**.
+- _Heap_ values include **only arrays and objects**. Java does **not** include lists, options, tuples, other datatypes, records or first-class functions.
+- Java includes a special reference called `null`.
+- Method bodies are stored in an auxiliary component called a class table.
+
+### The Java ASM
+- Only the name of the class and field members are part of the heap; the constructors and methods are stored in the class table.
+- Mutable fields are indicated by **bolded boxes**.
 
 ## Chapter 23 - Subtyping, Extension and Inheritance
 
