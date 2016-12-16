@@ -782,6 +782,32 @@ Some notes about arrays:
 ## Chapter 27 - Exceptions
 
 ## Chapter 28 - I/O
+- The stream abstraction represents a communication channel with the outside world.
+- Data items are read from or written to a stream one at a time.
+- At the lowest level, a stream is a sequence of binary numbers.
+
+### `InputStream` and `OutputStream`
+- Abstract classes that provide basic operations for the Stream class hiearchy
+- Read and write `int` values that represent _bytes_ in the range `0-255`
+- `-1` represents no more data
+
+### `BufferedInputStream`
+- Presents the same interface to clients, but internally reads many bytes at once to a buffer.
+- Result: lower overhead
+
+### Standard Java Streams
+- Bye streams
+- `System.in` - standard input (keyboard)
+- `System.out` - standard output (display)
+- `System.err` - standard error (display)
+
+### `Reader` and `Writer`
+- Read and write `int` values that represent _unicode characters_
+- Read and returns an integer in the range 0 to 65535 (16 bits)
+- `-1` represents no more data
+- Requires an encoding
+- Note that `System.in`, `System.out`, `System.err` are byte streams, so need to be wrapped in an InputStreamReader / PrintWriter
+if you need unicode console I/O
 
 ## Chapter 29 - Swing: GUI Programming in Java
 
