@@ -391,6 +391,10 @@ print_int : int -> unit
 run_test : string -> (unit -> bool) -> unit
 ```
 
+- Can define values of type unit
+- Can pattern match unit
+- Unit is the result of an implicit branch
+
 ### Using ";"
 - In OCaml programs (but not the top-level loop), `;` is always a separator, not a terminator. The list below collects together all the syntax combinations that use `;`:
   - `;; open Assert` open a module at the top-level of a program
@@ -399,8 +403,7 @@ run_test : string -> (unit -> bool) -> unit
   - `e1; e2` sequence a command e1 before the expression e2
   - `{x : int; y : int}` separate the fields of a record type
   - `{x = 3; y = 4}` separate the fields of a record value
-We have also seen that, when executing OCaml expressions in the top-level interactive loop, we use `;;` as a terminator to let OCaml know when to run a given
-expression.
+We have also seen that, when executing OCaml expressions in the top-level interactive loop, we use `;;` as a terminator to let OCaml know when to run a given expression.
 
 ## Chapter 13 - Records of Named Fields
 Example
@@ -791,8 +794,41 @@ Some notes about arrays:
 ## Chapter 26 - Overriding and Equality
 
 ## Chapter 27 - Exceptions
+- Exceptions that are subtypes of `Exception` but not `RuntimeException` are called checked or declared.
+- Subtypes of `RuntimeException` are unchecked and do not need to be declared.
+    - `NullPointerException`
+    - `IndexOutOfBoundsException`
+    - `IllegalArgumentException`
+- Use declared exceptions for libraries, where documentation and usage enforcement are critical.
+- Use undeclared exceptions in client code to facilitate more flexible development.
 
 ## Chapter 28 - I/O
+- The stream abstraction represents a communication channel with the outside world.
+- Data items are read from or written to a stream one at a time.
+- At the lowest level, a stream is a sequence of binary numbers.
+
+### `InputStream` and `OutputStream`
+- Abstract classes that provide basic operations for the Stream class hiearchy
+- Read and write `int` values that represent _bytes_ in the range `0-255`
+- `-1` represents no more data
+
+### `BufferedInputStream`
+- Presents the same interface to clients, but internally reads many bytes at once to a buffer.
+- Result: lower overhead
+
+### Standard Java Streams
+- Bye streams
+- `System.in` - standard input (keyboard)
+- `System.out` - standard output (display)
+- `System.err` - standard error (display)
+
+### `Reader` and `Writer`
+- Read and write `int` values that represent _unicode characters_
+- Read and returns an integer in the range 0 to 65535 (16 bits)
+- `-1` represents no more data
+- Requires an encoding
+- Note that `System.in`, `System.out`, `System.err` are byte streams, so need to be wrapped in an InputStreamReader / PrintWriter
+if you need unicode console I/O
 
 ## Chapter 29 - Swing: GUI Programming in Java
 
