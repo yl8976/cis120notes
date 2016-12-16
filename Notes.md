@@ -984,7 +984,7 @@ HashMap Performance
     - help rule out synchronization errors
     - Note: Swing is _not_ thread safe!
 - Locks: objects that act as synchronizers for blocks of code
-    - _deadlock_: cyclic dependency on synchronization
+    - deadlock: cyclic dependency on synchronization
 - Read-only data structures are immune to race conditions
 
 ### Garbage Collections
@@ -1014,10 +1014,10 @@ Reference Counting:
        - If all references to an object are "weak", then object can be freed
 
 Mark and Sweep:
-1. Mark
+- Mark
     - Start from roots
     - Do depth-first traversal
-2. Sweep
+- Sweep
     - Walk over all allocated objects and check for marks
     - Unmarked objects are reclaimed
     - Marked objects have their marks cleared
