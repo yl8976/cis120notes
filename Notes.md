@@ -669,20 +669,27 @@ Unlike OCaml, some of Java's operations are **overloaded**; i.e., they can be ap
 4 / 3.0 == 1.3333333333333333
 ```
 ### Primitive Operations in OCaml vs. Java
-|    OCaml     |     Java     | Description         |
-|:------------:|:------------:|:------------------- |
-|    = ==      |      ==      | Equality Test       |
-|    <> !=     |      !=      | Inequality          |
-|  < <= > >=   |   < <= > >=  | Comparisons         |
-|     +        |      +       | Addition            |
-|     -        |      -       | Subtraction         |
-|     /        |      /       | Division            |
-|     *        |      *       | Multiplication      |
-|    mod       |      %       | Remainder (Modulus) |
-|    not       |      !       | Logical "not"       |
-|    &&        |      &&      | Logical "and"       |
-| &#124;&#124; | &#124;&#124; | Logical "or"        |
+|  OCaml             |  Java               | Description         |
+|:------------------:|:-------------------:|:------------------- |
+|  `=` `==`          |  `==`               | Equality Test       |
+|  `<>` `!=`         |  `!=`               | Inequality          |
+|  `<` `<=` `>` `>=` |  `<` `<=` `>` `>=`  | Comparisons         |
+|  `+`               |  `+`                | Addition            |
+|  `-`               |  `-`                | Subtraction         |
+|  `/`               |  `/`                | Division            |
+|  `*`               |  `*`                | Multiplication      |
+|  `mod`             |  `%`                | Remainder (Modulus) |
+|  `not`             |  `!`                | Logical "not"       |
+|  `&&`              |  `&&`               | Logical "and"       |
+|  &#124;&#124;      |  &#124;&#124;       | Logical "or"        |
 
+### Dynamic vs. Static Methods
+- Dynamic dispatch is when the method invocation “dispatches” to some version of a method depending on the _dynamic_ class of the object.
+  - A dynamic method's behavior can't be determined until the program is actually run.
+- On the other hand, which `static` methods (and fields) are invoked when called can be determined at _compile time_.
+  - Use the class name to call on a static method (e.g. if `C` is a class, and `m()` is a `static` method within `C`, use `C.m()`).
+  - A static method **cannot access non-static fields or call non-static methods** associated with the class.
+  - Static methods are good for implementing functions that **don't depend on any objects' states**.
 
 ## Chapter 21 - Arrays
 
