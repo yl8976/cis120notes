@@ -1015,13 +1015,13 @@ Reference Counting:
 
 Mark and Sweep:
 1. Mark
-   - Start from roots
-   - Do depth-first traversal
+    - Start from roots
+    - Do depth-first traversal
 2. Sweep
-   - Walk over all allocated objects and check for marks
-   - Unmarked objects are reclaimed
-   - Marked objects have their marks cleared
-   - Optional: compact all live objects by moving them adjacent to one another
+    - Walk over all allocated objects and check for marks
+    - Unmarked objects are reclaimed
+    - Marked objects have their marks cleared
+    - Optional: compact all live objects by moving them adjacent to one another
 
 Copying Garbage Collection
 - Traverse over live objects in active region (_from-space_), copying them to the idle region (_to-space_)
