@@ -687,11 +687,53 @@ Unlike OCaml, some of Java's operations are **overloaded**; i.e., they can be ap
 - Dynamic dispatch is when the method invocation “dispatches” to some version of a method depending on the _dynamic_ class of the object.
   - A dynamic method's behavior can't be determined until the program is actually run.
 - On the other hand, which `static` methods (and fields) are invoked when called can be determined at _compile time_.
-  - Use the class name to call on a static method (e.g. if `C` is a class, and `m()` is a `static` method within `C`, use `C.m()`).
-  - A static method **cannot access non-static fields or call non-static methods** associated with the class.
-  - Static methods are good for implementing functions that **don't depend on any objects' states**.
+  - Use the class name to call on a `static` method (e.g. if `C` is a class, and `m()` is a `static` method within `C`, use `C.m()`).
+  - A `static` method **cannot access non-static fields or call non-static methods** associated with the class.
+  - `static` methods are good for implementing functions that **don't depend on any objects' states**.
 
 ## Chapter 21 - Arrays
+
+- The largest legal array index for a given array `a[]` is always `a.length - 1`.
+- Array elements are mutable:
+``` java
+a[i] = v;
+```
+- Instantiating a new array:
+``` java
+int[] arr = new int[10];
+```
+
+or, if you know the values already:
+``` java
+int[] arr = { 1, 2, 3 };
+Point[] pointArray = { new Point(1,3), new Point(5,4) };
+```
+
+### For and While Loops
+``` java
+for (int i = 1; i < 5; i++) { // loop guard and index update
+  i;
+}
+
+while (i < 5) { // loop guard
+  i;
+  i++; // loop index update
+}
+```
+
+### 2-D Arrays
+- Conventionally, 2-D arrays go _row then column_: `arr[row][column]`.
+- Iterate over 2-D arrays by the following:
+``` java
+for (int r = 0; r < arr.length; r++){
+// use the length of the inner array
+  for (int c = 0; c < arr[r].length; c++) {
+    arr[r][c] = ...
+  }
+}
+```
+- Make sure you don't use aliases when storing objects inside arrays!
+
 
 ## Chapter 22 - The Java ASM
 
@@ -701,21 +743,22 @@ Unlike OCaml, some of Java's operations are **overloaded**; i.e., they can be ap
 
 ## Chapter 25 - Generics, Collections, and Iteration
 
-All	collections	use	equals
-– Defaults to == (reference equality)
-– Override equals to create structural equality
-– Should be: false for distinct instance classes
-– An equivalence relation: reflexive, symmetric, transitive
-- HashSets/HashMaps use hashCode
-– Override when equals is overridden
-– Should be compatible with equals
-– Should try to "distribute" the values uniformly
-– Iterator not guaranteed to follow element order
-• Ordered collections (TreeSet, TreeMap) need to implement Comparable<Object>
-– Override compareTo
-– Should implement a total order
-– Strongly recommended to be compatible with equals
-(i.e. o1.equals(o2) exactly when o1.compareTo(o2) == 0)
+### All	collections	use	`equals`
+- Defaults to `==` (reference equality)
+- Override `equals` to create structural equality
+- Should be: `false` for distinct instance classes
+- An equivalence relation: reflexive, symmetric, transitive
+
+### `HashSets`/`HashMaps` use `hashCode`
+- Override when `equals` is overridden
+- Should be compatible with `equals`
+- Should try to "distribute" the values uniformly
+- Iterator not guaranteed to follow element order
+
+### Ordered collections (`TreeSet`, `TreeMap`) need to implement `Comparable<Object>`
+- Override `compareTo`
+- Should implement a total order
+- Strongly recommended to be compatible with `equals` (i.e. `o1.equals(o2)` exactly when `o1.compareTo(o2) == 0`)
 
 ## Chapter 26 - Overriding and Equality
 
