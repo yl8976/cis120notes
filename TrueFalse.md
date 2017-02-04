@@ -6,18 +6,6 @@ Answers to some True-False questions from the old final exams
 
 **T** **F**
 ### Fall 2012
-<<<<<<< HEAD
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
-=======
 1. **T** - When you override the `equals` method of a class, you should be sure to override the `hashCode` method compatibly.
 2. **F** - If `A` is a subtype of `B`, then `Set<A>` is a subtype of `Set<B>`.
 3. **T** - When using the Java IO libraries, one should generally wrap a `FileReader` object inside a `BufferedReader` to prevent significant performance problems.
@@ -31,8 +19,6 @@ public void m() {...}
 8. **T** - The `@Override` annotation prevents accidental overloading of a method.
 9. **F** - In some cases, dynamic dispatch of a method invocation requires the Java ASM to search the entire stack to find the appropriate code to run next.
 10. **F** - It is not possible to call a method declared as `static` from within a non-`static` method.
-
->>>>>>> origin/master
 
 ### Spring 2015: Java Swing Programming
 1. **T** - The type `MyPanel` is a subtype of `Object`.

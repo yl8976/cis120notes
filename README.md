@@ -12,8 +12,4 @@ Most qualitative and extraneous information is omitted, unless it is pertinent t
 1. Refer to `120notes.pdf` for the original course textbook.
 2. Refer to `Notes.md` for chapter-by-chapter summaries.
 3. Refer to `TrueFalse.md` for previous True-False exam questions.
-<<<<<<< HEAD
 4. Good luck studying for finals! :)
-=======
-4. Good luck studying for finals!
->>>>>>> origin/master
